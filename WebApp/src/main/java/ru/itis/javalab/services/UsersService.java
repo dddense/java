@@ -7,4 +7,10 @@ import java.util.List;
 public interface UsersService {
 
     List<User> getAllUsers();
+
+    List<User> getUsersByAge(int age);
+
+    List<User> getUserByUsername(String username);
+
+    void addUser(User user);
 }

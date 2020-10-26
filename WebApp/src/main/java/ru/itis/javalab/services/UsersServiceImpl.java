@@ -19,4 +19,23 @@ public class UsersServiceImpl implements UsersService {
 
         return usersRepository.findAll();
     }
+
+    @Override
+    public List<User> getUsersByAge(int age) {
+
+        return usersRepository.findAllByAge(age);
+    }
+
+    @Override
+    public List<User> getUserByUsername(String username) {
+
+        return usersRepository.findByUsername(username);
+    }
+
+    @Override
+    public void addUser(User user) {
+
+        usersRepository.save(user);
+    }
+
 }

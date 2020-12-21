@@ -31,7 +31,6 @@ public class CookiesRepositoryJdbcImpl implements CookiesRepository {
     @Override
     public void save(String entity) {
 
-        System.out.println(entity);
         template.update(SQL_ADD, entity);
     }
 

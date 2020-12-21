@@ -1,5 +1,6 @@
 package ru.itis.javalab.servlets;
 
+import ru.itis.javalab.services.StudentsService;
 import ru.itis.javalab.services.UsersService;
 
 import javax.servlet.ServletConfig;
@@ -12,24 +13,24 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/users")
-public class UsersServlet extends HttpServlet {
+@WebServlet("/students")
+public class StudentsServlet extends HttpServlet {
 
-    private UsersService usersService;
+    private StudentsService studentsService;
 
     @Override
     public void init(ServletConfig config) {
 
         ServletContext servletContext = config.getServletContext();
-        this.usersService = (UsersService) servletContext.getAttribute("usersService");
+        this.studentsService = (StudentsService) servletContext.getAttribute("studentsService");
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        System.out.println(usersService.getAllUsers());
-        System.out.println(usersService.getUsersByAge(20));
-        request.setAttribute("usersForJsp", usersService.getAllUsers());
+        //System.out.println(usersService.getAllUsers());
+        //System.out.println(usersService.getUsersByAge(20));
+        request.setAttribute("students", studentsService.getAll());
         request.getRequestDispatcher("/jsp/users.jsp").forward(request, response);
     }
 

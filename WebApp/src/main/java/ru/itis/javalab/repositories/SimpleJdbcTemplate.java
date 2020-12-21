@@ -1,4 +1,6 @@
-package ru.itis.javalab.repositories;
+package ru.itis.javalab.repositories.old;
+
+import ru.itis.javalab.repositories.old.RowMapper;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -36,7 +38,6 @@ public class SimpleJdbcTemplate {
             }
 
             resultSet = statement.executeQuery();
-            System.out.println(resultSet.getStatement());
 
             while (resultSet.next()) {
                 result.add(rowMapper.mapRow(resultSet));
@@ -50,9 +51,7 @@ public class SimpleJdbcTemplate {
 
     public <T> void update(String sql, Object... args) {
 
-        System.out.println(2);
         try {
-            System.out.println(1);
             PreparedStatement statement = connection.prepareStatement(sql);
 
             int pos = 1;
@@ -61,8 +60,6 @@ public class SimpleJdbcTemplate {
                 statement.setObject(pos, arg);
                 pos++;
             }
-
-            System.out.println(statement);
 
             statement.executeUpdate();
 

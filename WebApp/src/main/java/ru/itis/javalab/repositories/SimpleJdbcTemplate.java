@@ -1,6 +1,4 @@
-package ru.itis.javalab.repositories.old;
-
-import ru.itis.javalab.repositories.old.RowMapper;
+package ru.itis.javalab.repositories;
 
 import javax.sql.DataSource;
 import java.sql.Connection;

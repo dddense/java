@@ -1,4 +1,6 @@
-package ru.itis.javalab.repositories;
+package ru.itis.javalab.repositories.old;
+
+import ru.itis.javalab.repositories.CrudRepository;
 
 import java.util.List;
 

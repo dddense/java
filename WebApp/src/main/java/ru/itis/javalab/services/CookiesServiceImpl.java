@@ -1,6 +1,6 @@
 package ru.itis.javalab.services;
 
-import ru.itis.javalab.repositories.CookiesRepository;
+import ru.itis.javalab.repositories.old.CookiesRepository;
 
 import java.util.List;
 

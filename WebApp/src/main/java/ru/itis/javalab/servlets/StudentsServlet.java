@@ -1,7 +1,8 @@
 package ru.itis.javalab.servlets;
 
+import org.springframework.context.ApplicationContext;
 import ru.itis.javalab.services.StudentsService;
-import ru.itis.javalab.services.UsersService;
+import ru.itis.javalab.services.StudentsServiceImpl;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
@@ -21,8 +22,10 @@ public class StudentsServlet extends HttpServlet {
     @Override
     public void init(ServletConfig config) {
 
-        ServletContext servletContext = config.getServletContext();
-        this.studentsService = (StudentsService) servletContext.getAttribute("studentsService");
+//        ServletContext servletContext = config.getServletContext();
+//        this.studentsService = (StudentsService) servletContext.getAttribute("studentsService");
+        ApplicationContext context = (ApplicationContext) config.getServletContext().getAttribute("springContext");
+        this.studentsService = context.getBean(StudentsServiceImpl.class);
     }
 
     @Override
@@ -30,8 +33,17 @@ public class StudentsServlet extends HttpServlet {
 
         //System.out.println(usersService.getAllUsers());
         //System.out.println(usersService.getUsersByAge(20));
+        Cookie [] cookies = request.getCookies();
+        Cookie cookie = null;
+        for (Cookie c : cookies) {
+            if (c.getName().equals("color")) {
+                cookie = c;
+            }
+        }
+        request.setAttribute("color", cookie);
         request.setAttribute("students", studentsService.getAll());
-        request.getRequestDispatcher("/jsp/users.jsp").forward(request, response);
+//        request.getRequestDispatcher("/jsp/students.jsp").forward(request, response);
+        request.getRequestDispatcher("/ftlh/students.ftlh").forward(request, response);
     }
 
     @Override
@@ -41,6 +53,6 @@ public class StudentsServlet extends HttpServlet {
         Cookie cookie = new Cookie("color", color);
         cookie.setMaxAge(60 * 60 * 24);
         resp.addCookie(cookie);
-        resp.sendRedirect("/users");
+        resp.sendRedirect("/students");
     }
 }

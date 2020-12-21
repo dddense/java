@@ -1,37 +1,39 @@
 package ru.itis.javalab.servlets;
 
+import org.springframework.context.ApplicationContext;
 import ru.itis.javalab.models.User;
 import ru.itis.javalab.services.CookiesService;
 import ru.itis.javalab.services.UsersService;
+import ru.itis.javalab.services.UsersServiceImpl;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.*;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.UUID;
 
 @WebServlet("/reg")
 public class RegistrationServlet extends HttpServlet {
 
     private UsersService usersService;
-    private CookiesService cookiesService;
+//    private CookiesService cookiesService;
 
     @Override
     public void init(ServletConfig config) {
 
-        this.usersService = (UsersService) config.getServletContext().getAttribute("usersService");
-        this.cookiesService = (CookiesService) config.getServletContext().getAttribute("cookiesService");
+//        this.usersService = (UsersService) config.getServletContext().getAttribute("usersService");
+//        this.cookiesService = (CookiesService) config.getServletContext().getAttribute("cookiesService");
+        ApplicationContext context = (ApplicationContext) config.getServletContext().getAttribute("springContext");
+        usersService = context.getBean(UsersServiceImpl.class);
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        req.getRequestDispatcher("/jsp/reg.jsp").forward(req, resp);
+        req.getSession().setAttribute("Authenticated", "false");
+//        req.getRequestDispatcher("/jsp/reg.jsp").forward(req, resp);
+        req.getRequestDispatcher("/ftlh/reg.ftlh").forward(req, resp);
     }
 
     @Override
@@ -39,23 +41,28 @@ public class RegistrationServlet extends HttpServlet {
 
         String username = req.getParameter("username");
         String password = req.getParameter("password");
+        String uri = req.getRequestURI();
+        if (uri.equals("/login") || uri.equals("/reg")) {
+            uri = "/";
+        }
 
         if (!usersService.getUserByUsername(username).isEmpty()) {
-            PrintWriter out = resp.getWriter();
-            out.println("Username " + username + " already taken");
-            resp.sendRedirect("/reg");
+            resp.sendRedirect("/login");
         } else {
             User user = User.builder()
                     .username(username)
-                    .password(password)
+                    .password(usersService.setPassword(password))
                     .uuid(String.valueOf(UUID.randomUUID()))
                     .build();
             usersService.addUser(user);
-            Cookie cookie = new Cookie("uuid", user.getUuid());
-            cookie.setMaxAge(60 * 60 * 24);
-            resp.addCookie(cookie);
-            cookiesService.add(cookie.getValue());
-            resp.sendRedirect("/login");
+
+//            Cookie cookie = new Cookie("Auth", user.getUuid());
+//            cookie.setMaxAge(60 * 60 * 24);
+//            resp.addCookie(cookie);
+//            cookiesService.add(cookie.getValue());
+            req.getSession().setAttribute("Authenticated", "true");
+
+            resp.sendRedirect(uri);
         }
     }
 }

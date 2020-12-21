@@ -1,4 +1,7 @@
-package ru.itis.javalab.repositories;
+package ru.itis.javalab.repositories.old;
+
+import ru.itis.javalab.repositories.RowMapper;
+import ru.itis.javalab.repositories.SimpleJdbcTemplate;
 
 import javax.sql.DataSource;
 import java.util.List;
@@ -46,6 +49,11 @@ public class CookiesRepositoryJdbcImpl implements CookiesRepository {
 
     @Override
     public List<String> findAll() {
+        return null;
+    }
+
+    @Override
+    public List<String> findAll(int page, int size) {
         return null;
     }
 }

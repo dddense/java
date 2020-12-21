@@ -13,4 +13,8 @@ public interface UsersService {
     List<User> getUserByUsername(String username);
 
     void addUser(User user);
+
+    String setPassword(String password);
+
+    boolean matches(String password, String hash);
 }

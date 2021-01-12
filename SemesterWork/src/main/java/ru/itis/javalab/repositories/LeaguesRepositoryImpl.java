@@ -4,6 +4,7 @@ import ru.itis.javalab.models.League;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
+import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,9 +21,9 @@ public class LeaguesRepositoryImpl implements LeaguesRepository {
     //language=SQL
     private static String SQL_FIND_BY_ID = "select * from leagues where id = :id";
 
-    public LeaguesRepositoryImpl(NamedParameterJdbcTemplate template) {
+    public LeaguesRepositoryImpl(DataSource dataSource) {
 
-        this.template = template;
+        this.template = new NamedParameterJdbcTemplate(dataSource);
     }
 
     private final RowMapper<League> rowMapper = (row, rowNumber) ->
@@ -36,7 +37,7 @@ public class LeaguesRepositoryImpl implements LeaguesRepository {
 
         Map<String, Object> params = new HashMap<>();
         params.put("name", name);
-        return Optional.of(template.query(SQL_FIND_BY_NAME, params, rowMapper).get(0));
+        return Optional.ofNullable(template.queryForObject(SQL_FIND_BY_NAME, params, rowMapper));
     }
 
     @Override
@@ -50,6 +51,6 @@ public class LeaguesRepositoryImpl implements LeaguesRepository {
 
         Map<String, Object> params = new HashMap<>();
         params.put("id", id);
-        return Optional.of(template.query(SQL_FIND_BY_ID, params, rowMapper).get(0));
+        return Optional.ofNullable(template.queryForObject(SQL_FIND_BY_ID, params, rowMapper));
     }
 }

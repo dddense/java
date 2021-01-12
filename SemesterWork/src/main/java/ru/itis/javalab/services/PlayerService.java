@@ -3,6 +3,7 @@ package ru.itis.javalab.services;
 import ru.itis.javalab.models.Player;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface PlayerService {
 
@@ -15,4 +16,8 @@ public interface PlayerService {
     List<Player> getAllName(String name);
 
     List<Player> getAllByTeamName(String name);
+
+    Optional<Player> getByName(String name);
+
+    Optional<Player> getById(Integer id);
 }

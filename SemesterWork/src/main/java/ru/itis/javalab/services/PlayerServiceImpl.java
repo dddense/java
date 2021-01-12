@@ -4,6 +4,7 @@ import ru.itis.javalab.models.Player;
 import ru.itis.javalab.repositories.PlayersRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public class PlayerServiceImpl implements PlayerService {
 
@@ -42,5 +43,17 @@ public class PlayerServiceImpl implements PlayerService {
     public List<Player> getAllByTeamName(String name) {
 
         return playersRepository.findAllByTeamName(name);
+    }
+
+    @Override
+    public Optional<Player> getByName(String name) {
+
+        return playersRepository.findByName(name);
+    }
+
+    @Override
+    public Optional<Player> getById(Integer id) {
+
+        return playersRepository.findById(id);
     }
 }

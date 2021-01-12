@@ -10,14 +10,8 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
-import ru.itis.javalab.repositories.PlayersRepository;
-import ru.itis.javalab.repositories.PlayersRepositoryImpl;
-import ru.itis.javalab.repositories.TeamsRepository;
-import ru.itis.javalab.repositories.TeamsRepositoryImpl;
-import ru.itis.javalab.services.PlayerService;
-import ru.itis.javalab.services.PlayerServiceImpl;
-import ru.itis.javalab.services.TeamsService;
-import ru.itis.javalab.services.TeamsServiceImpl;
+import ru.itis.javalab.repositories.*;
+import ru.itis.javalab.services.*;
 
 import javax.sql.DataSource;
 
@@ -57,6 +51,18 @@ public class ApplicationConfig {
     public PlayerService playerService() {
 
         return new PlayerServiceImpl(playerRepository());
+    }
+
+    @Bean
+    public LeaguesRepository leaguesRepository() {
+
+        return new LeaguesRepositoryImpl(dataSource());
+    }
+
+    @Bean
+    public LeagueService leagueService() {
+
+        return new LeagueServiceImpl(leaguesRepository());
     }
 
     @Bean

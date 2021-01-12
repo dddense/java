@@ -27,7 +27,8 @@ public class TeamsController {
         model.addAttribute("team_name", teamsService.getByName(teamName).getName());
         System.out.println(teamsService.getByName(teamName));
 
-        model.addAttribute("players", playerService.getAllByTeamName((String) model.getAttribute("team_name")));
+        model.addAttribute("players", playerService.getAllByTeamName(teamName));
+        System.out.println(playerService.getAllByTeamName(teamName));
         return "team";
     }
 }

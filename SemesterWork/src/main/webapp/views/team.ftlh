@@ -2,11 +2,19 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="views/style.css">
     <title>${team_name}</title>
+    <style>
+        body {
+            background: url(../img/1x.jpg) no-repeat;
+            background-size: 100%;
+        }
+    </style>
 </head>
 <body>
+<#include "cap.html">
 <p>
-    <img src="../img/${team_name}.png" alt="no img for ${team_name}">
+    <img src="img/teams/elche.png" alt="no img for ${team_name}">
 </p>
 <table>
     <tr>

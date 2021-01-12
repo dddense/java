@@ -28,6 +28,8 @@ public class PlayersRepositoryImpl implements PlayersRepository {
     private static String SQL_FIND_ALL = "select * from players";
     //language=SQL
     private static String SQL_FIND_BY_ID = "select 1 from players where id = :id";
+    //language=SQL
+    private static String SQL_FIND_BY_NAME = "select 1 from players where name = :name";
 
     public PlayersRepositoryImpl(DataSource dataSource) {
 
@@ -73,6 +75,15 @@ public class PlayersRepositoryImpl implements PlayersRepository {
         Map<String, Object> params = new HashMap<>();
         params.put("name", name);
         return template.query(SQL_FIND_ALL_BY_TEAM_NAME, params, rowMapper);
+    }
+
+    @Override
+    public Optional<Player> findByName(String name) {
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("name", name);
+
+        return Optional.ofNullable(template.queryForObject(SQL_FIND_BY_NAME, params, rowMapper));
     }
 
     @Override

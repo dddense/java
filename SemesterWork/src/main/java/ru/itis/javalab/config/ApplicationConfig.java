@@ -91,7 +91,7 @@ public class ApplicationConfig {
     public FreeMarkerConfigurer freemarkerConfig() {
 
         FreeMarkerConfigurer configurer = new FreeMarkerConfigurer();
-        configurer.setTemplateLoaderPath("/views/");
+        configurer.setTemplateLoaderPath("/templates/");
 
         return configurer;
     }

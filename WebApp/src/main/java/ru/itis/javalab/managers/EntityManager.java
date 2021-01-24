@@ -5,6 +5,8 @@ import ru.itis.javalab.repositories.SimpleJdbcTemplate;
 import javax.sql.DataSource;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -94,30 +96,27 @@ public class EntityManager {
     public <T, ID> T findById(String tableName, Class<T> resultType, Class<ID> idType, ID idValue) {
 
         // сгенерировать select
-        StringBuilder sql = new StringBuilder("select ");
-        Field [] fields = resultType.getDeclaredFields();
-        for (Field field : fields) {
-            sql.append(field.getName());
-        }
-        sql.append(" from ").append(tableName).append(" where id = ").append(idValue.toString());
+        T instance;
+        StringBuilder sql = new StringBuilder("select *").append(" from ")
+                .append(tableName).append(" where id = ")
+                .append(idValue.toString()).append(" limit 1");
+        Connection connection = null;
         ResultSet resultSet;
+        Field[] fields = resultType.getDeclaredFields();
+
         try {
-            resultSet = this.dataSource.getConnection().prepareStatement(sql.toString()).executeQuery();
-        } catch (SQLException e) {
+            connection = dataSource.getConnection();
+            PreparedStatement statement = connection.prepareStatement(String.valueOf(sql));
+            resultSet = statement.executeQuery();
+            instance = resultType.getConstructor().newInstance();
+            for (Field field : fields) {
+                field.set(instance, resultSet.getObject(field.getName()));
+            }
+        } catch (InstantiationException | NoSuchMethodException | InvocationTargetException
+                | IllegalAccessException | SQLException e) {
             throw new IllegalStateException(e);
         }
 
-        T entity;
-        try {
-            entity = resultType.getConstructor().newInstance();
-            for (Field field : fields) {
-                String name = field.getName();
-                String value = resultSet.getString(name);
-                field.set(entity, field.getType().getConstructor(String.class).newInstance(value));
-            }
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException | SQLException e) {
-            throw new IllegalStateException(e);
-        }
-        return entity;
+        return instance;
     }
 }

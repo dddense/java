@@ -41,7 +41,7 @@ public class AuthFilter implements Filter {
 //                }
 //            }
             HttpSession session = request.getSession(false);
-            if (session == null || session.getAttribute("Authenticated").equals("false")) {
+            if (session == null || session.getAttribute("authorized").equals("false")) {
                 response.sendRedirect("/login");
                 return;
             }

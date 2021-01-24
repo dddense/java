@@ -51,8 +51,10 @@ public class LoginServlet extends HttpServlet {
 
         if (users.isEmpty()) {
             resp.sendRedirect("/reg");
+            System.out.println("empty");
         } else if (usersService.matches(password, users.get(0).getPassword())) {
-            req.getSession().setAttribute("Authenticated", "true");
+            System.out.println("found");
+            req.getSession().setAttribute("authorized", "true");
             resp.sendRedirect(uri);
         }
 

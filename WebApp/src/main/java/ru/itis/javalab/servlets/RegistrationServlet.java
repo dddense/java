@@ -60,7 +60,7 @@ public class RegistrationServlet extends HttpServlet {
 //            cookie.setMaxAge(60 * 60 * 24);
 //            resp.addCookie(cookie);
 //            cookiesService.add(cookie.getValue());
-            req.getSession().setAttribute("Authenticated", "true");
+            req.getSession().setAttribute("authorized", "true");
 
             resp.sendRedirect(uri);
         }

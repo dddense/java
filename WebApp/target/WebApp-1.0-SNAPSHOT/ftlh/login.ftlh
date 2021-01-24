@@ -4,14 +4,21 @@
 </head>
 <body>
 <h1>Login</h1>
-<form method="post" action="/login">
-    <input type="hidden" value="${_csrf_token}" name="_csrf_token">
-    <fieldset>
-        <legend>Your credentials</legend>
-        <label>Username <input name="username" type="text" required></label>
-        <label>Password <input name="password" type="password" required></label>
-    </fieldset>
-    <input type="submit" value="Enter">
+<form method="post">
+    <div class="container">
+
+        <h1>Login</h1>
+        <p>Enter your credentials.</p>
+
+        <hr>
+        <label for="username"><b>Password</b></label>
+        <input type="username" placeholder="Username" name="username" required>
+        <label for="psw"><b>Password</b></label>
+        <input type="password" placeholder="Password" name="password" required>
+        <hr>
+        <input type="hidden" value="${_csrf_token}" name="_csrf_token">
+        <input type="submit" value="Enter">
+    </div>
 </form>
 </body>
 </html>

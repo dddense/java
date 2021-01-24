@@ -1,5 +1,4 @@
 import com.google.auto.service.AutoService;
-import freemarker.cache.FileTemplateLoader;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
@@ -10,10 +9,7 @@ import javax.annotation.processing.RoundEnvironment;
 import javax.annotation.processing.SupportedAnnotationTypes;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
@@ -30,7 +26,7 @@ public class HtmlProcessor extends AbstractProcessor {
         String path = HtmlProcessor.class.getProtectionDomain().getCodeSource().getLocation().getPath().substring(1);
         for (Element element : annotatedElements) {
             //html
-            Path out = Paths.get(path + element.getSimpleName().toString() + ".html");
+            Path out = Paths.get(path + element.getSimpleName().toString() + ".ftlh");
 
             try {
                 List<? extends Element> fields = element.getEnclosedElements()
@@ -54,42 +50,29 @@ public class HtmlProcessor extends AbstractProcessor {
             }
 
             //freemarker
-            String ftlh = element.getSimpleName().toString() + ".ftlh";
+            out = Paths.get(path + element.getSimpleName().toString() + ".ftlh");
             Configuration config = new Configuration(Configuration.VERSION_2_3_30);
             config.setDefaultEncoding("UTF-8");
-            Map<String, Object> attributes = new HashMap<>();
-            HtmlForm annotation = element.getAnnotation(HtmlForm.class);
-
             try {
-                config.setTemplateLoader(new FileTemplateLoader(new File("src/main/resources/ftlh")));
-                Template template = config.getTemplate(ftlh);
-                List<Map<String, String>> inputs = new ArrayList<>();
-                element.getEnclosedElements().forEach(element1 -> {
-                    HtmlInput htmlInput = element1.getAnnotation(HtmlInput.class);
-                    if (htmlInput != null) {
-                        Map<String, String> lineAttrs = new HashMap<>();
-                        lineAttrs.put("type", htmlInput.type());
-                        lineAttrs.put("name", htmlInput.name());
-                        lineAttrs.put("placeholder", htmlInput.placeholder());
-                        inputs.add(lineAttrs);
-                    }
-                });
-
-                attributes.put("inputs", inputs);
-                attributes.put("action", annotation.action());
-                attributes.put("method", annotation.method());
-
-                BufferedWriter writer = new BufferedWriter(new FileWriter(out.toFile().getAbsolutePath()));
-                try {
-                    template.process(attributes, writer);
-                } catch (TemplateException e) {
-                    throw new IllegalStateException(e);
-                }
-            } catch (IOException e) {
+                config.setDirectoryForTemplateLoading(new File("src/resources/ftlh"));
+                HtmlForm annotation = element.getAnnotation(HtmlForm.class);
+                Template template = config.getTemplate("form.ftlh");
+                Map<String, Object> model = new HashMap<>();
+                List<? extends Element> fields = element.getEnclosedElements()
+                        .stream()
+                        .filter(x -> x.getAnnotation(HtmlInput.class) != null)
+                        .collect(Collectors.toList());
+                model.put("entity", fields);
+                model.put("action", annotation.action());
+                model.put("method", annotation.method());
+                BufferedWriter writer = new BufferedWriter(new FileWriter(out.toFile()));
+                template.process(model, writer);
+            } catch (IOException | TemplateException e) {
                 throw new IllegalStateException(e);
             }
         }
 
         return true;
     }
+
 }

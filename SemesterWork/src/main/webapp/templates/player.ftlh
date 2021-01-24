@@ -2,17 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="views/style.css">
+    <link rel="stylesheet" href="../css/style.css">
     <title>${player.name}</title>
-    <style>
-        body {
-            background: url(../img/1x.jpg) no-repeat;
-            background-size: 100%;
-        }
-    </style>
 </head>
 <body>
-<#include "cap.html">
+<#include "../static/img/html/cap.html">
 <p>
     <img src="img/players/${player.name}.png" alt="no img for ${player.name}">
 </p>

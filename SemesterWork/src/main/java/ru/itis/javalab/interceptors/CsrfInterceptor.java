@@ -17,6 +17,8 @@ public class CsrfInterceptor implements HandlerInterceptor {
             if (sessionCsrf.equals(requestCsrf)) {
                 return true;
             } else {
+                response.setStatus(403);
+                response.sendRedirect("/login");
                 return false;
             }
         }

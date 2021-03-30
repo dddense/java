@@ -30,7 +30,7 @@ public class User {
 
 
     private enum Role {
-        ADMIN, DEFAULT
+        ADMIN, USER
     }
 
     private String confirmCode;

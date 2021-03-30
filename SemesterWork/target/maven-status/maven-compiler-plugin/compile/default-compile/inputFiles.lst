@@ -5,6 +5,7 @@ C:\Users\densh\itis\SemesterWork\src\main\java\ru\itis\javalab\utils\EmailUtilIm
 C:\Users\densh\itis\SemesterWork\src\main\java\ru\itis\javalab\validation\ValidNames.java
 C:\Users\densh\itis\SemesterWork\src\main\java\ru\itis\javalab\repositories\old\TeamsRepositoryImpl.java
 C:\Users\densh\itis\SemesterWork\src\main\java\ru\itis\javalab\validation\NamesValidator.java
+C:\Users\densh\itis\SemesterWork\src\main\java\ru\itis\javalab\security\config\SecurityWebApplicationInitializer.java
 C:\Users\densh\itis\SemesterWork\src\main\java\ru\itis\javalab\dto\UserForm.java
 C:\Users\densh\itis\SemesterWork\src\main\java\ru\itis\javalab\repositories\old\PlayersRepositoryImpl.java
 C:\Users\densh\itis\SemesterWork\src\main\java\ru\itis\javalab\services\LeagueService.java
@@ -14,13 +15,16 @@ C:\Users\densh\itis\SemesterWork\src\main\java\ru\itis\javalab\repositories\Team
 C:\Users\densh\itis\SemesterWork\src\main\java\ru\itis\javalab\utils\MailsGeneratorImpl.java
 C:\Users\densh\itis\SemesterWork\src\main\java\ru\itis\javalab\repositories\old\CrudRepository.java
 C:\Users\densh\itis\SemesterWork\src\main\java\ru\itis\javalab\repositories\old\PlayersRepository.java
+C:\Users\densh\itis\SemesterWork\src\main\java\ru\itis\javalab\security\config\SecurityConfig.java
 C:\Users\densh\itis\SemesterWork\src\main\java\ru\itis\javalab\config\ApplicationInitializer.java
 C:\Users\densh\itis\SemesterWork\src\main\java\ru\itis\javalab\repositories\UsersRepository.java
+C:\Users\densh\itis\SemesterWork\src\main\java\ru\itis\javalab\security\details\UserDetailsImpl.java
 C:\Users\densh\itis\SemesterWork\src\main\java\ru\itis\javalab\services\TeamsServiceImpl.java
 C:\Users\densh\itis\SemesterWork\src\main\java\ru\itis\javalab\utils\EmailUtilMockImpl.java
 C:\Users\densh\itis\SemesterWork\src\main\java\ru\itis\javalab\repositories\old\TeamsRepository.java
 C:\Users\densh\itis\SemesterWork\src\main\java\ru\itis\javalab\services\UsersServiceImpl.java
 C:\Users\densh\itis\SemesterWork\src\main\java\ru\itis\javalab\models\Player.java
+C:\Users\densh\itis\SemesterWork\src\main\java\ru\itis\javalab\security\details\UserDetailsServiceImpl.java
 C:\Users\densh\itis\SemesterWork\src\main\java\ru\itis\javalab\utils\MailsGenerator.java
 C:\Users\densh\itis\SemesterWork\src\main\java\ru\itis\javalab\models\League.java
 C:\Users\densh\itis\SemesterWork\src\main\java\ru\itis\javalab\repositories\old\LeaguesRepositoryImpl.java
@@ -33,10 +37,11 @@ C:\Users\densh\itis\SemesterWork\src\main\java\ru\itis\javalab\controllers\Teams
 C:\Users\densh\itis\SemesterWork\src\main\java\ru\itis\javalab\repositories\PlayersRepository.java
 C:\Users\densh\itis\SemesterWork\src\main\java\ru\itis\javalab\services\UsersService.java
 C:\Users\densh\itis\SemesterWork\src\main\java\ru\itis\javalab\config\LocalizationConfig.java
+C:\Users\densh\itis\SemesterWork\src\main\java\ru\itis\javalab\controllers\SignInController.java
+C:\Users\densh\itis\SemesterWork\src\main\java\ru\itis\javalab\controllers\ProfileController.java
 C:\Users\densh\itis\SemesterWork\src\main\java\ru\itis\javalab\services\UsersServiceMockImpl.java
 C:\Users\densh\itis\SemesterWork\src\main\java\ru\itis\javalab\validation\ValidPassword.java
 C:\Users\densh\itis\SemesterWork\src\main\java\ru\itis\javalab\services\PlayerServiceImpl.java
-C:\Users\densh\itis\SemesterWork\src\main\java\ru\itis\javalab\interceptors\CsrfInterceptor.java
 C:\Users\densh\itis\SemesterWork\src\main\java\ru\itis\javalab\repositories\old\TeamsRepositoryMockImpl.java
 C:\Users\densh\itis\SemesterWork\src\main\java\ru\itis\javalab\services\PlayerService.java
 C:\Users\densh\itis\SemesterWork\src\main\java\ru\itis\javalab\models\Team.java

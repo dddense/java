@@ -61,4 +61,9 @@ public class UserDetailsImpl implements UserDetails {
 
         return user.isActive();
     }
+
+    private User getUser() {
+
+        return user;
+    }
 }

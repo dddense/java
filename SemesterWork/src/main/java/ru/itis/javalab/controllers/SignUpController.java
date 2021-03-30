@@ -40,7 +40,7 @@ public class SignUpController {
             return "sign_up";
         }
         usersService.addUser(form);
-        return "redirect:/success_sign_up";
+        return "redirect:/signIn";
 
     }
 }

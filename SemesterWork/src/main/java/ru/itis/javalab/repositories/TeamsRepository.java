@@ -1,11 +1,11 @@
 package ru.itis.javalab.repositories;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import ru.itis.javalab.models.Team;
 
-import java.util.List;
+import java.util.Optional;
 
-public interface TeamsRepository extends CrudRepository<Team> {
+public interface TeamsRepository extends JpaRepository<Team, Long> {
 
-    List<Team> findAllByLeagueId(int id);
-    Team findByName(String name);
+    Optional<Team> findByName(String name);
 }

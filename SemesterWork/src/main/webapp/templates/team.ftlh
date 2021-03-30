@@ -6,7 +6,7 @@
     <title>${team_name}</title>
 </head>
 <body>
-<#include "../static/html/cap.html">
+<!--#include "../static/html/cap.html"-->
 <div class="content">
     <p>
         <img src="img/teams/${team_name}.png" alt="no img for ${team_name}">

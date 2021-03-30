@@ -6,7 +6,7 @@
     <title>${player.name}</title>
 </head>
 <body>
-<#include "../static/img/html/cap.html">
+<#include "../static/html/cap.html">
 <p>
     <img src="img/players/${player.name}.png" alt="no img for ${player.name}">
 </p>

@@ -24,10 +24,10 @@ public class TeamsController {
     @RequestMapping(value = "/teams/{team-name}", method = RequestMethod.GET)
     public String getTeam(@PathVariable("team-name") String teamName, Model model) {
 
-        model.addAttribute("team_name", teamsService.getByName(teamName).getName());
+        model.addAttribute("team_name", teamsService.getByName(teamName).get().getName());
         System.out.println(teamsService.getByName(teamName));
 
-        model.addAttribute("players", playerService.getAllByTeamName(teamName));
+        model.addAttribute("players", playerService.getAll());
         System.out.println(playerService.getAllByTeamName(teamName));
         return "team";
     }

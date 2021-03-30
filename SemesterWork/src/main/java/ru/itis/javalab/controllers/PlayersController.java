@@ -20,7 +20,7 @@ public class PlayersController {
     @RequestMapping(value = "/players/{player_name}", method = RequestMethod.GET)
     public String getPlayer(@PathVariable("player_name") String playerName, Model model) {
 
-        Integer id = playerService.getByName(playerName).get().getId();
+        Long id = playerService.getByName(playerName).get().getId();
         model.addAttribute("player", playerService.getById(id).get());
 
         return "player";

@@ -2,6 +2,9 @@ package ru.itis.javalab.models;
 
 import lombok.*;
 
+import javax.persistence.*;
+import java.util.List;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
@@ -9,9 +12,16 @@ import lombok.*;
 @Builder
 @EqualsAndHashCode
 @ToString
+@Entity
+@Table
 public class Team {
 
     private String name;
-    private Integer id;
-    private Integer leagueId;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @OneToMany(mappedBy = "team")
+    private List<Player> players;
 }

@@ -7,6 +7,8 @@ import java.util.Optional;
 
 public interface PlayerService {
 
+    List<Player> getAll();
+
     List<Player> getAllByTeamId(int id);
 
     List<Player> getAllByRoleId(int id);
@@ -19,5 +21,5 @@ public interface PlayerService {
 
     Optional<Player> getByName(String name);
 
-    Optional<Player> getById(Integer id);
+    Optional<Player> getById(Long id);
 }

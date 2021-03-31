@@ -28,6 +28,10 @@
         <@spring.formPasswordInput "userForm.password"/>
         <@spring.showErrors "<br>" "error"/>
 
+        <label>
+            <input type="checkbox" name="remember me"><@spring.message 'remember-me'/>
+        </label>
+
         <hr>
         <p>By creating an account you agree to our <a href="#">Terms & Privacy</a>.</p>
         <input type="submit" value="Enter">

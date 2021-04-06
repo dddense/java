@@ -28,8 +28,8 @@
         <@spring.formPasswordInput "userForm.password"/>
         <@spring.showErrors "<br>" "error"/>
 
-        <label>
-            <input type="checkbox" name="remember me"><@spring.message 'remember-me'/>
+        <label for="remember-me">
+            <input type="checkbox" name="remember-me"><@spring.message 'remember-me'/>
         </label>
 
         <hr>

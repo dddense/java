@@ -9,8 +9,11 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.ClassRelativeResourceLoader;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.jdbc.datasource.init.DataSourceInitializer;
+import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.orm.jpa.JpaTransactionManager;
@@ -28,6 +31,7 @@ import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
+import java.io.File;
 import java.util.Properties;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -51,13 +55,27 @@ public class ApplicationConfig {
 
     @Bean
     public HikariConfig hikariConfig() {
+
         HikariConfig hikariConfig = new HikariConfig();
         hikariConfig.setJdbcUrl(environment.getProperty("db.url"));
         hikariConfig.setMaximumPoolSize(Integer.parseInt(environment.getProperty("db.hikari.max-pool-size")));
         hikariConfig.setUsername(environment.getProperty("db.username"));
         hikariConfig.setPassword(environment.getProperty("db.password"));
         hikariConfig.setDriverClassName(environment.getProperty("db.driver.classname"));
+
         return hikariConfig;
+    }
+
+    @Bean
+    public DataSourceInitializer dataSourceInitializer(DataSource dataSource) {
+
+        ResourceDatabasePopulator resourceDatabasePopulator = new ResourceDatabasePopulator();
+        resourceDatabasePopulator.addScript(new ClassPathResource("/schema/schema.sql"));
+        DataSourceInitializer dataSourceInitializer = new DataSourceInitializer();
+        dataSourceInitializer.setDataSource(dataSource);
+        dataSourceInitializer.setDatabasePopulator(resourceDatabasePopulator);
+
+        return dataSourceInitializer;
     }
 
     @Bean
@@ -82,12 +100,14 @@ public class ApplicationConfig {
 
     @Bean
     public freemarker.template.Configuration configuration() {
+
         freemarker.template.Configuration configuration = new freemarker.template.Configuration(freemarker.template.Configuration.VERSION_2_3_30);
         configuration.setDefaultEncoding("UTF-8");
         configuration.setTemplateLoader(
                 new SpringTemplateLoader(new ClassRelativeResourceLoader(this.getClass()),
                         "/"));
         configuration.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
+
         return configuration;
     }
 
@@ -130,6 +150,7 @@ public class ApplicationConfig {
         entityManagerFactory.setPackagesToScan("ru.itis.javalab.models");
         entityManagerFactory.setJpaVendorAdapter(hibernateJpaVendorAdapter);
         entityManagerFactory.setJpaProperties(additionalProperties());
+
         return entityManagerFactory;
     }
 

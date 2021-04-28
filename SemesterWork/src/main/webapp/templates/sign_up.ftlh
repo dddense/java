@@ -17,6 +17,7 @@
     <p style=".error">${namesErrorMessage}</p>
 </#if>
 <form method="post">
+    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
     <div class="container">
         <p>Please fill in this form to create an account.</p>
         <hr>

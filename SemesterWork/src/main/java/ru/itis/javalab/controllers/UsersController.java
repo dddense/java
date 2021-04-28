@@ -3,6 +3,7 @@ package ru.itis.javalab.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import ru.itis.javalab.models.User;
@@ -24,5 +25,13 @@ public class UsersController {
         System.out.println(users);
 
         return "users_view";
+    }
+
+    @PostMapping("/banAll")
+    public String banUsers() {
+
+        usersService.banAll();
+
+        return "redirect:/users";
     }
 }

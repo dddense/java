@@ -7,6 +7,7 @@
 </head>
 <body>
 PROFILE
+${user.username}
 <table>
     <tr>
         <td></td>

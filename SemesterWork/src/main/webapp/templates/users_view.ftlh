@@ -15,5 +15,9 @@
         </tr>
     </#list>
 </table>
+<form method="post" action="/banAll">
+    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+    <input type="submit" value="BAN">
+</form>
 </body>
 </html>

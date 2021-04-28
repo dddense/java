@@ -81,6 +81,18 @@ public class UsersServiceImpl implements UsersService {
     }
 
     @Override
+    public void banAll() {
+
+        List<User> users = usersRepository.findAll();
+        for (User user : users) {
+            if (!user.isAdmin()) {
+                user.setState(User.State.BANNED);
+                usersRepository.save(user);
+            }
+        }
+    }
+
+    @Override
     public boolean matches(String password, String hash) {
 
         return passwordEncoder.matches(password, hash);

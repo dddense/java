@@ -55,6 +55,11 @@ public class UsersServiceMockImpl implements UsersService {
     }
 
     @Override
+    public void banAll() {
+
+    }
+
+    @Override
     public boolean matches(String password, String hash) {
         return false;
     }

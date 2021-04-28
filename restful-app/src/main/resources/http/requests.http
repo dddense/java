@@ -1,0 +1,79 @@
+POST http://localhost/teachers
+Content-Type: application/json
+
+{
+  "firstName": "Marsel",
+  "lastName": "Sidikov"
+}
+
+###
+
+POST http://localhost/teachers
+Content-Type: application/json
+
+{
+  "firstName" : "Michael",
+  "lastName" : "Abramskiy"
+}
+
+###
+
+PUT http://localhost/teachers/2
+Content-Type: application/json
+
+{
+  "firstName" : "Marsel",
+  "lastName" : "Sidikov"
+}
+
+###
+
+DELETE http://localhost/teachers/6
+X-TOKEN: 48834288-a63d-4ad9-849e-3e7256aec72f
+
+###
+
+POST http://localhost/course
+Content-Type: application/json
+
+{
+  "title" : "Math"
+}
+
+###
+
+POST http://localhost/courses/1/teachers
+Content-Type: application/json
+
+{
+  "id" : 1
+}
+
+###
+
+GET http://localhost/courses
+
+###
+
+POST http://localhost/login
+Content-Type: application/json
+
+{
+  "email" : "admin@admin.ru",
+  "password" : "admin"
+}
+
+###
+
+POST http://localhost/login
+Content-Type: application/json
+
+{
+  "email" : "densh2001@mail.ru",
+  "password" : "qwerty123"
+}
+
+###
+
+GET localhost/teachers
+access-token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IkFETUlOIiwiZXhwIjoxNjE5NTM4NzQzfQ.xImIwelPPihf69ZzgRds1XGKSNmrftAzknqBJJ6mTJw

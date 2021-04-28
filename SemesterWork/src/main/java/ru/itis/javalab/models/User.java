@@ -3,6 +3,7 @@ package ru.itis.javalab.models;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Data
 @AllArgsConstructor
@@ -10,7 +11,7 @@ import javax.persistence.*;
 @Builder
 @Entity
 @Table(name = "account")
-public class User {
+public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

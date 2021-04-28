@@ -17,5 +17,7 @@ public interface UsersService {
 
     String setPassword(String password);
 
+    void banAll();
+
     boolean matches(String password, String hash);
 }

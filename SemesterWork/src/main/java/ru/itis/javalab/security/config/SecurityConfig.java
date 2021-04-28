@@ -33,11 +33,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        http.csrf().disable();
         http.authorizeRequests()
                 .antMatchers("/signUp").permitAll()
                 .antMatchers("/profile").authenticated()
                 .antMatchers("/users").hasAuthority("ADMIN")
+                .antMatchers("/banAll").hasAuthority("ADMIN")
                 .and()
                 .formLogin()
                 .loginPage("/signIn")

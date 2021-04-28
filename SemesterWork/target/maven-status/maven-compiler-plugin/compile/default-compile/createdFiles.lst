@@ -29,6 +29,7 @@ ru\itis\javalab\controllers\TeamsController.class
 ru\itis\javalab\models\User$UserBuilder.class
 ru\itis\javalab\repositories\old\PlayersRepositoryImpl.class
 ru\itis\javalab\repositories\PlayersRepository.class
+ru\itis\javalab\controllers\RootController.class
 ru\itis\javalab\models\League.class
 ru\itis\javalab\utils\EmailUtilMockImpl.class
 ru\itis\javalab\models\User$Role.class
@@ -39,6 +40,7 @@ ru\itis\javalab\services\TeamsServiceImpl.class
 ru\itis\javalab\models\Player$PlayerBuilder.class
 ru\itis\javalab\security\config\SecurityConfig.class
 ru\itis\javalab\repositories\old\TeamsRepositoryMockImpl.class
+ru\itis\javalab\config\SpringSessionConfig.class
 ru\itis\javalab\controllers\SignUpController.class
 ru\itis\javalab\repositories\old\PlayersRepository.class
 ru\itis\javalab\repositories\old\TeamsRepository.class

@@ -8,14 +8,18 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import ru.itis.restfulapp.security.token.TokenAuthenticationFilter;
+import ru.itis.restfulapp.security.token.AccessTokenAuthenticationFilter;
+import ru.itis.restfulapp.security.token.RefreshTokenAuthenticationFilter;
 import ru.itis.restfulapp.security.token.TokenAuthenticationProvider;
 
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private TokenAuthenticationFilter tokenAuthenticationFilter;
+    private AccessTokenAuthenticationFilter accessTokenAuthenticationFilter;
+
+    @Autowired
+    private RefreshTokenAuthenticationFilter refreshTokenAuthenticationFilter;
 
     @Autowired
     private TokenAuthenticationProvider tokenAuthenticationProvider;
@@ -26,7 +30,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
 
         http
-                .addFilterBefore(tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(accessTokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(refreshTokenAuthenticationFilter, AccessTokenAuthenticationFilter.class)
                 .authorizeRequests()
                 .antMatchers("/teachers").hasAuthority("ADMIN")
                 .antMatchers("/courses").permitAll()

@@ -39,6 +39,9 @@ Content-Type: application/json
 {
   "title" : "Math"
 }
+###
+
+GET http://localhost/courses/1/teachers
 
 ###
 
@@ -76,4 +79,4 @@ Content-Type: application/json
 ###
 
 GET localhost/teachers
-access-token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IkFETUlOIiwiZXhwIjoxNjE5NTM4NzQzfQ.xImIwelPPihf69ZzgRds1XGKSNmrftAzknqBJJ6mTJw
+access-token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IkFETUlOIiwiZXhwIjoxNjE5ODg4NjAwfQ.KAMv2Klds3r61HJwdlYNTdwlwZlpJ84wRkvGIbuVBMk

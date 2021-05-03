@@ -1,0 +1,19 @@
+GET localhost/token/59e20bfb-c7cc-42b5-a7da-86e35f1f6456
+
+###
+
+POST localhost/posts
+Content-Type: application/json
+
+{
+  "authorId": "3",
+  "body": "new post!"
+}
+
+###
+
+GET localhost/users/search?page=0&size=10&q=s
+
+###
+
+GET http://localhost/users/search?q=denis

@@ -1,0 +1,1 @@
+{"pagesCount":3,"users":[{"id":2,"username":"user","posts":[]},{"id":3,"username":"admin","posts":[{"id":1,"author":"admin","authorId":3,"body":"3's post"}]},{"id":4,"username":"denis","posts":[{"id":2,"author":"denis","authorId":4,"body":"4's post"}]}]}

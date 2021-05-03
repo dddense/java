@@ -1,0 +1,158 @@
+GET http://localhost/users/search?q=denis
+
+<> 2021-05-02T050224.400.json
+
+###
+
+GET http://localhost/users/search?page=0&size=10&q=s
+
+<> 2021-05-02T044824.200.json
+
+###
+
+GET http://localhost/users/search?page=0&size=10&q=s
+
+<> 2021-05-02T042715.200.json
+
+###
+
+GET http://localhost/users/search?page=0&size=10&q=s
+
+<> 2021-05-02T012052.200.json
+
+###
+
+GET http://localhost/users/search?page=0&size=10&q=d
+
+<> 2021-05-02T012043.200.json
+
+###
+
+GET http://localhost/users/search?page=0&size=10&q=denis
+
+<> 2021-05-02T012035.200.json
+
+###
+
+GET http://localhost/users/search?page=0&size=10
+
+<> 2021-05-02T011720.200.json
+
+###
+
+GET http://localhost/users/search?page=0&size=10
+
+<> 2021-05-02T125729.200.json
+
+###
+
+GET http://localhost/users/search?page=0&size=3
+
+<> 2021-05-02T125706.200.json
+
+###
+
+GET http://localhost/users/search?page=0&size=3
+
+<> 2021-05-02T125042.200.json
+
+###
+
+GET http://localhost/users/search?page=0&size=3
+
+<> 2021-05-02T124501.200.json
+
+###
+
+GET http://localhost/users/search?page=0&size=3
+
+###
+
+GET http://localhost/users/search?page=0&size=3
+
+###
+
+GET http://localhost/users/search?page=0&size=3
+
+<> 2021-05-02T124316.200.json
+
+###
+
+GET http://localhost/users/search?page=0&size=3
+
+<> 2021-05-02T124158.500.json
+
+###
+
+GET http://localhost/users/search?page=0&size=3
+
+<> 2021-05-02T124048.200.json
+
+###
+
+GET http://localhost/users/search?page=0&size=3
+
+<> 2021-05-02T123931.200.json
+
+###
+
+GET http://localhost/papers/search?page=0&size=3
+
+<> 2021-05-02T114947.200.json
+
+###
+
+GET http://localhost/papers/search?page=0&size=3
+
+<> 2021-05-02T114850.500.json
+
+###
+
+GET http://localhost/papers/search
+
+<> 2021-05-02T114801.400.json
+
+###
+
+POST http://localhost/posts
+Content-Type: application/json
+
+{
+  "authorId": "3",
+  "body": "new post!"
+}
+
+<> 2021-05-02T121339.403.json
+
+###
+
+POST http://localhost/posts
+Content-Type: application/json
+
+{
+  "authorId": "3",
+  "body": "new post!"
+}
+
+<> 2021-05-02T121316.403.json
+
+###
+
+GET http://localhost/token/59e20bfb-c7cc-42b5-a7da-86e35f1f6456
+
+<> 2021-05-01T010823.200.txt
+
+###
+
+GET http://localhost/token/59e20bfb-c7cc-42b5-a7da-86e35f1f6456
+
+<> 2021-05-01T124807.200.txt
+
+###
+
+GET http://localhost/token/59e20bfb-c7cc-42b5-a7da-86e35f1f6456
+
+<> 2021-05-01T124046.500.json
+
+###
+

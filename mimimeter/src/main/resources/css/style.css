@@ -1,0 +1,19 @@
+h1 {
+    font-size: 125%;
+    font-family: "Comic Sans MS", cursive;
+}
+
+h2 {
+    font-size: 125%;
+}
+
+.center {
+    width: 600px;
+    height: 600px;
+    margin: auto;
+}
+
+.pair {
+    display: inline;
+    margin: auto;
+}

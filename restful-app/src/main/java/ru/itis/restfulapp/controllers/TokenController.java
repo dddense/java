@@ -13,27 +13,32 @@ import ru.itis.restfulapp.redis.services.RedisUsersService;
 import ru.itis.restfulapp.repositories.UsersRepository;
 import ru.itis.restfulapp.utils.TokenProvider;
 
+import javax.servlet.http.HttpServletRequest;
+
 @RestController
 public class TokenController {
-
-    private TokenProvider provider;
 
     private RedisUsersService redisUsersService;
 
     @Autowired
-    public TokenController(TokenProvider provider, RedisUsersService redisUsersService) {
+    public TokenController(RedisUsersService redisUsersService) {
 
-        this.provider = provider;
         this.redisUsersService = redisUsersService;
     }
 
     @PostMapping("/refresh/{user-id}")
-    public ResponseEntity<TokenDto> updateTokens(@PathVariable("user-id") Long id) {
+    public ResponseEntity<TokenDto> updateTokens(@PathVariable("user-id") Long id, HttpServletRequest request) {
 
-        String access = redisUsersService.updateUserTokens(id);
+        Boolean refreshIsValid = (Boolean) request.getAttribute("refresh-status");
 
-        return ResponseEntity.ok(TokenDto.builder()
-                .token(access)
-                .build());
+        if (refreshIsValid) {
+            String access = redisUsersService.updateUserTokens(id);
+
+            return ResponseEntity.ok(TokenDto.builder()
+                    .token(access)
+                    .build());
+        }
+
+        return ResponseEntity.status(401).build();
     }
 }

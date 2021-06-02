@@ -3,6 +3,7 @@ package ru.itis.restfulapp.redis.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import ru.itis.restfulapp.models.Token;
 import ru.itis.restfulapp.models.User;
 import ru.itis.restfulapp.redis.models.RedisUser;
 import ru.itis.restfulapp.redis.repositories.RedisUsersRepository;
@@ -82,5 +83,16 @@ public class RedisUsersServiceImpl implements RedisUsersService {
         addTokenToUser(user, refresh);
 
         return access;
+    }
+
+    public Token getUserRefresh(String token) {
+
+        RedisUser redisUser = redisUsersRepository
+                .findById(provider.getClaim("redisId", token).asString())
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+        return Token.builder()
+                .token(redisUser.getTokens().get(0))
+                .build();
     }
 }

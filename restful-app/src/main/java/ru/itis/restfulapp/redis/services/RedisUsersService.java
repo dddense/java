@@ -1,5 +1,6 @@
 package ru.itis.restfulapp.redis.services;
 
+import ru.itis.restfulapp.models.Token;
 import ru.itis.restfulapp.models.User;
 
 public interface RedisUsersService {
@@ -9,4 +10,6 @@ public interface RedisUsersService {
     void deleteToken(User user, String token);
 
     String updateUserTokens(Long userId);
+
+    Token getUserRefresh(String token);
 }

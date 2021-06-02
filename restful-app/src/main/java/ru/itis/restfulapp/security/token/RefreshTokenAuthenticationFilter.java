@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
+import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import ru.itis.restfulapp.models.Token;
 import ru.itis.restfulapp.redis.models.RedisUser;
@@ -16,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+@Component
 public class RefreshTokenAuthenticationFilter extends OncePerRequestFilter {
 
     private final RequestMatcher refreshRequest = new AntPathRequestMatcher("/refresh", "POST");
@@ -41,5 +43,7 @@ public class RefreshTokenAuthenticationFilter extends OncePerRequestFilter {
                 httpServletRequest.setAttribute("refresh-status", provider.valid(refresh.getToken()));
             }
         }
+
+        filterChain.doFilter(httpServletRequest, httpServletResponse);
     }
 }

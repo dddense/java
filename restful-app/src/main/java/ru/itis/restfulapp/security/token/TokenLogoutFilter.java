@@ -17,10 +17,13 @@ public class TokenLogoutFilter extends OncePerRequestFilter {
 
     private final RequestMatcher logoutRequest = new AntPathRequestMatcher("/logout", "GET");
 
+
+
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
 
         if (logoutRequest.matches(httpServletRequest)) {
+
             SecurityContextHolder.clearContext();
         }
         filterChain.doFilter(httpServletRequest, httpServletResponse);

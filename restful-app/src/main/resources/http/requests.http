@@ -79,4 +79,8 @@ Content-Type: application/json
 ###
 
 GET localhost/teachers
-access-token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IkFETUlOIiwiZXhwIjoxNjE5ODg4NjAwfQ.KAMv2Klds3r61HJwdlYNTdwlwZlpJ84wRkvGIbuVBMk
+access-token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IkFETUlOIiwicmVkaXNJZCI6IjVjODJlMzY5LTBhZGUtNDMyOC1iNTE5LTk0ZjcwMzZhMTg3ZSIsImV4cCI6MTYyMjY1NjczM30.MM25GuHYvXtnsnLutzOPIZIhsncZHx2_nxf4ZfeJFK8
+
+###
+
+POST localhost/refresh/1

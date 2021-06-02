@@ -13,11 +13,11 @@ public class TokenAuthentication implements Authentication {
 
     private boolean isAuthenticated;
 
-    private String token;
+    private String redisId;
 
-    public TokenAuthentication(String token) {
+    public TokenAuthentication(String redisId) {
 
-        this.token = token;
+        this.redisId = redisId;
     }
 
     public void setUserDetails(UserDetails userDetails) {
@@ -68,6 +68,6 @@ public class TokenAuthentication implements Authentication {
     @Override
     public String getName() {
 
-        return token;
+        return redisId;
     }
 }

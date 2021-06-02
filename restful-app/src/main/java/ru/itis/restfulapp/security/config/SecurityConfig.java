@@ -8,9 +8,10 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.LogoutFilter;
 import ru.itis.restfulapp.security.token.AccessTokenAuthenticationFilter;
-import ru.itis.restfulapp.security.token.RefreshTokenAuthenticationFilter;
 import ru.itis.restfulapp.security.token.TokenAuthenticationProvider;
+import ru.itis.restfulapp.security.token.TokenLogoutFilter;
 
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -19,10 +20,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private AccessTokenAuthenticationFilter accessTokenAuthenticationFilter;
 
     @Autowired
-    private RefreshTokenAuthenticationFilter refreshTokenAuthenticationFilter;
+    private TokenAuthenticationProvider tokenAuthenticationProvider;
 
     @Autowired
-    private TokenAuthenticationProvider tokenAuthenticationProvider;
+    private TokenLogoutFilter tokenLogoutFilter;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -30,12 +31,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
 
         http
+                .addFilterAt(tokenLogoutFilter, LogoutFilter.class)
                 .addFilterBefore(accessTokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(refreshTokenAuthenticationFilter, AccessTokenAuthenticationFilter.class)
                 .authorizeRequests()
                 .antMatchers("/teachers").hasAuthority("ADMIN")
                 .antMatchers("/courses").permitAll()
                 .antMatchers("/login").permitAll()
+                .antMatchers("/logout").hasAnyAuthority()
                 .and()
                 .sessionManagement().disable();
     }

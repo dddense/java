@@ -11,8 +11,11 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import ru.itis.restfulapp.models.Token;
 import ru.itis.restfulapp.models.User;
+import ru.itis.restfulapp.redis.models.RedisUser;
+import ru.itis.restfulapp.redis.repositories.RedisUsersRepository;
 import ru.itis.restfulapp.repositories.TokensRepository;
 import ru.itis.restfulapp.repositories.UsersRepository;
+import ru.itis.restfulapp.utils.TokenProvider;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -31,10 +34,24 @@ public class AccessTokenAuthenticationFilter extends OncePerRequestFilter {
     private Long accessExp;
 
     @Autowired
+    public AccessTokenAuthenticationFilter(TokenProvider provider,
+                                           TokensRepository tokensRepository,
+                                           UsersRepository usersRepository,
+                                           RedisUsersRepository redisUsersRepository) {
+
+        this.provider = provider;
+        this.tokensRepository = tokensRepository;
+        this.usersRepository = usersRepository;
+        this.redisUsersRepository = redisUsersRepository;
+    }
+
+    private TokenProvider provider;
+
     private TokensRepository tokensRepository;
 
-    @Autowired
     private UsersRepository usersRepository;
+
+    private RedisUsersRepository redisUsersRepository;
 
     @Override
     public void doFilterInternal(HttpServletRequest request,
@@ -44,75 +61,81 @@ public class AccessTokenAuthenticationFilter extends OncePerRequestFilter {
         String accessToken = request.getHeader("access-token");
 
         if (accessToken != null) {
-            DecodedJWT aToken = JWT.require(Algorithm.HMAC256(secretWord))
-                    .build()
-                    .verify(accessToken);
-
-            Long userId = Long.parseLong(aToken.getSubject());
-            Date expiresAt = aToken.getExpiresAt();
-            Date currentDate = new Date();
-
-            if (currentDate.getTime() < expiresAt.getTime()) { //access invalid
-                response.addHeader("access-status", "invalid");
-                try {
-
-                    Token refreshToken = tokensRepository
-                            .findFirstByUserId(userId)
-                            .orElseThrow((Supplier<Throwable>) () -> new UsernameNotFoundException("Not found"));
-
-                    DecodedJWT decodedRefreshToken = JWT.require(Algorithm.HMAC256(secretWord))
-                            .build()
-                            .verify(refreshToken.getToken());
-
-                    Date expires = decodedRefreshToken.getExpiresAt();
-
-                    if (expires.getTime() < currentDate.getTime()) { //refresh invalid
-                        response.sendRedirect("/login");
-                    } else { //refresh valid
-
-                        User user = usersRepository
-                                .findById(userId)
-                                .orElseThrow((Supplier<Throwable>) () -> new UsernameNotFoundException("Not found"));
-
-                        Date aExp = new Date();
-
-                        aExp.setTime(System.currentTimeMillis() + accessExp);
-
-                        String access = JWT.create()
-                                .withSubject(user.getId().toString())
-                                .withClaim("role", String.valueOf(user.getRole()))
-                                .withExpiresAt(aExp)
-                                .sign(Algorithm.HMAC256(secretWord));
-
-                        response.addHeader("access-token", access);
-
-                        TokenAuthentication tokenAuthentication = new TokenAuthentication(refreshToken.getToken());
-
-                        SecurityContextHolder.getContext().setAuthentication(tokenAuthentication);
-                    }
-                } catch (Throwable throwable) {
-                    throw new IllegalStateException(throwable);
-                }
-            } else { //access valid
-                response.addHeader("access-token", accessToken);
-                response.addHeader("access-status", "valid");
-
-                try {
-
-                    Token refreshToken = tokensRepository
-                            .findFirstByUserId(userId)
-                            .orElseThrow((Supplier<Throwable>) () -> new UsernameNotFoundException("Not found"));
-
-                    TokenAuthentication tokenAuthentication = new TokenAuthentication(refreshToken.getToken());
-
-                    SecurityContextHolder.getContext().setAuthentication(tokenAuthentication);
-
-                } catch (Throwable throwable) {
-                    throw new IllegalStateException(throwable);
-                }
+            if (provider.valid(accessToken)) {
+                TokenAuthentication tokenAuthentication = new TokenAuthentication(provider.getClaim("redisId", accessToken).asString());
+                SecurityContextHolder.getContext().setAuthentication(tokenAuthentication);
+            } else {
+                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                response.addHeader("user-id", provider.decode(accessToken).getSubject());
             }
         }
-
+//        if (accessToken != null) {
+//            DecodedJWT aToken = JWT.require(Algorithm.HMAC256(secretWord))
+//                    .build()
+//                    .verify(accessToken);
+//
+//            Long userId = Long.parseLong(aToken.getSubject());
+//            Date expiresAt = aToken.getExpiresAt();
+//            Date currentDate = new Date();
+//
+//            if (currentDate.getTime() < expiresAt.getTime()) { //access invalid
+//                try {
+//
+//                    Token refreshToken = tokensRepository
+//                            .findFirstByUserId(userId)
+//                            .orElseThrow((Supplier<Throwable>) () -> new UsernameNotFoundException("Not found"));
+//
+//                    DecodedJWT decodedRefreshToken = JWT.require(Algorithm.HMAC256(secretWord))
+//                            .build()
+//                            .verify(refreshToken.getToken());
+//
+//                    Date expires = decodedRefreshToken.getExpiresAt();
+//
+//                    if (expires.getTime() < currentDate.getTime()) { //refresh invalid
+//                        response.sendRedirect("/login");
+//                    } else { //refresh valid
+//
+//                        User user = usersRepository
+//                                .findById(userId)
+//                                .orElseThrow((Supplier<Throwable>) () -> new UsernameNotFoundException("Not found"));
+//
+//                        Date aExp = new Date();
+//
+//                        aExp.setTime(System.currentTimeMillis() + accessExp);
+//
+//                        String access = JWT.create()
+//                                .withSubject(user.getId().toString())
+//                                .withClaim("role", String.valueOf(user.getRole()))
+//                                .withExpiresAt(aExp)
+//                                .sign(Algorithm.HMAC256(secretWord));
+//
+//                        response.addHeader("access-token", access);
+//
+//                        TokenAuthentication tokenAuthentication = new TokenAuthentication(refreshToken.getToken());
+//
+//                        SecurityContextHolder.getContext().setAuthentication(tokenAuthentication);
+//                    }
+//                } catch (Throwable throwable) {
+//                    throw new IllegalStateException(throwable);
+//                }
+//            } else { //access valid
+//                response.addHeader("access-token", accessToken);
+//
+//                try {
+//
+//                    Token refreshToken = tokensRepository
+//                            .findFirstByUserId(userId)
+//                            .orElseThrow((Supplier<Throwable>) () -> new UsernameNotFoundException("Not found"));
+//
+//                    TokenAuthentication tokenAuthentication = new TokenAuthentication(refreshToken.getToken());
+//
+//                    SecurityContextHolder.getContext().setAuthentication(tokenAuthentication);
+//
+//                } catch (Throwable throwable) {
+//                    throw new IllegalStateException(throwable);
+//                }
+//            }
+//        }
 
         filterChain.doFilter(request, response);
     }

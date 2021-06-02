@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import ru.itis.restfulapp.models.Token;
@@ -53,20 +55,25 @@ public class AccessTokenAuthenticationFilter extends OncePerRequestFilter {
 
     private RedisUsersRepository redisUsersRepository;
 
+    private final RequestMatcher excludedRequest = new AntPathRequestMatcher("/refresh/**", "POST");
+
     @Override
     public void doFilterInternal(HttpServletRequest request,
                                  HttpServletResponse response,
                                  FilterChain filterChain) throws IOException, ServletException {
 
-        String accessToken = request.getHeader("access-token");
 
-        if (accessToken != null) {
-            if (provider.valid(accessToken)) {
-                TokenAuthentication tokenAuthentication = new TokenAuthentication(provider.getClaim("redisId", accessToken).asString());
-                SecurityContextHolder.getContext().setAuthentication(tokenAuthentication);
-            } else {
-                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-                response.addHeader("user-id", provider.decode(accessToken).getSubject());
+        if (!excludedRequest.matches(request)) {
+            String accessToken = request.getHeader("access-token");
+
+            if (accessToken != null) {
+                if (provider.valid(accessToken)) {
+                    TokenAuthentication tokenAuthentication = new TokenAuthentication(provider.getClaim("redisId", accessToken).asString());
+                    SecurityContextHolder.getContext().setAuthentication(tokenAuthentication);
+                } else {
+                    response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                    response.addHeader("user-id", provider.decode(accessToken).getSubject());
+                }
             }
         }
 //        if (accessToken != null) {

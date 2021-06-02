@@ -2,6 +2,7 @@ package ru.itis.restfulapp.utils;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +51,8 @@ public class TokenProvider {
                 .withSubject(user.getId().toString())
                 .withClaim("redisId", user.getRedisId())
                 .withClaim("role", String.valueOf(user.getRole()))
-                .withExpiresAt(accessExp)
+//                .withExpiresAt(accessExp)
+                .withClaim("expires", accessExp.getTime())
                 .sign(Algorithm.HMAC256(secretWord));
 
         return access;
@@ -63,7 +65,8 @@ public class TokenProvider {
 
         String refresh = JWT.create()
                 .withSubject(user.getId().toString())
-                .withExpiresAt(refreshExp)
+//                .withExpiresAt(refreshExp)
+                .withClaim("expires", refreshExp.getTime())
                 .sign(Algorithm.HMAC256(secretWord));
 
         return refresh;
@@ -83,7 +86,8 @@ public class TokenProvider {
     public boolean valid(String token) {
 
         Long currentDate = new Date().getTime();
-        Long expires = decode(token).getExpiresAt().getTime();
+//        Long expires = decode(token).getExpiresAt().getTime();
+        Long expires = decode(token).getClaim("expires").asLong();
 
         return currentDate < expires;
     }

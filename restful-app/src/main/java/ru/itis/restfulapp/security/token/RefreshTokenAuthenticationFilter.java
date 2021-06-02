@@ -20,7 +20,7 @@ import java.io.IOException;
 @Component
 public class RefreshTokenAuthenticationFilter extends OncePerRequestFilter {
 
-    private final RequestMatcher refreshRequest = new AntPathRequestMatcher("/refresh", "POST");
+    private final RequestMatcher refreshRequest = new AntPathRequestMatcher("/refresh/**", "POST");
 
     private RedisUsersService redisUsersService;
 
